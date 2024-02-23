@@ -43,7 +43,7 @@ final actor RemoteNodeDirectory {
     private func withTimeout(nodeID: NodeIdentity?,
                              action: @escaping (TimedContinuation<RemoteNode>) async -> ()) async throws -> RemoteNode
     {
-        try await withThrowingContinuation { continuation in
+        try await withThrowingContinuation { [self] continuation in
             Task {
                 let tc = await TimedContinuation(continuation: continuation,
                                                  error: WebSocketActorSystemError.timeoutWaitingForNodeID(id: nodeID, timeout: timeout),
